@@ -25,8 +25,6 @@ def main():
     ursina.window.fps_counter.enabled = True
     ursina.window.exit_button.visible = False
 
-    triangley = None
-
     def slot():
         if ursina.held_keys['left mouse'] or ursina.held_keys['right mouse']:
             hand.active()
@@ -75,8 +73,7 @@ def main():
                 if key == 'c up':
                     ursina.camera.fov = 90
 
-                print(ursina.camera.x, ursina.camera.y)
-                            
+                xyz_display.text = f'{int(player.position.x)} {int(player.position.y)} {int(player.position.z)}'
 
     class Sky(ursina.Entity):
         def __init__(self):
@@ -115,9 +112,13 @@ def main():
         # scale=0.2,
     )
 
-    FirstPersonController()
+    player = FirstPersonController()
+    player.mouse_sensitivity = ursina.Vec2(80, 80)
+    
     Sky()
     hand = Hand()
+
+    xyz_display = ursina.Text(position=(-.8, .4), text='0 0 0')
 
     def runner():
         while True:
